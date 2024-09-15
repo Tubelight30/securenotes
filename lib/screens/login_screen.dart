@@ -37,7 +37,7 @@ class LoginScreen extends StatelessWidget {
                   colorText: Colors.white,
                   snackPosition: SnackPosition.BOTTOM,
                 );
-                Get.to(DashBoardScreen());
+                Get.offAll(DashBoardScreen());
               }
             },
             child: Text("Login"),

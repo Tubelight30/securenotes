@@ -39,7 +39,7 @@ class SetupController extends GetxController {
       final user = await appwriteService.account.get();
       // loggedInUser = User.fromMap(user.toMap());
       route.value = DashBoardScreen();
-      print("User logged in: ${loggedInUser?.name}");
+      // print("User logged in: ${loggedInUser?.name}");
     } catch (e) {
       route.value = const OnBoardScreen();
       print("User not logged in $e");

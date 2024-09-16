@@ -96,8 +96,7 @@ import 'package:markdown_editable_textinput/markdown_text_input.dart';
 
 class EditNoteScreen extends StatefulWidget {
   final Note note;
-
-  EditNoteScreen({Key? key, required this.note}) : super(key: key);
+  const EditNoteScreen({super.key, required this.note});
 
   @override
   _EditNoteScreenState createState() => _EditNoteScreenState();
@@ -117,11 +116,28 @@ class _EditNoteScreenState extends State<EditNoteScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.blueGrey[900],
       appBar: AppBar(
-        title: Text('Edit Note'),
+        backgroundColor: Colors.transparent,
+        leading: IconButton(
+          icon: const Icon(
+            Icons.arrow_back_ios_sharp,
+            color: Colors.white,
+          ),
+          onPressed: () {
+            Get.back();
+          },
+        ),
+        title: Text(
+          'Edit Note',
+          style: TextStyle(color: Colors.white),
+        ),
         actions: [
           IconButton(
-            icon: Icon(isPreviewMode ? Icons.edit : Icons.preview),
+            icon: Icon(
+              isPreviewMode ? Icons.edit : Icons.preview,
+              color: Colors.white,
+            ),
             onPressed: () {
               setState(() {
                 isPreviewMode = !isPreviewMode;

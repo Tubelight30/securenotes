@@ -13,7 +13,20 @@ class DashBoardScreen extends StatelessWidget {
   NoteController noteController = Get.put(NoteController());
   LogoutController logoutController = Get.put(LogoutController());
   DashBoardScreen({super.key});
-
+  Map<int, String> month = {
+    1: "Jan",
+    2: "Feb",
+    3: "Mar",
+    4: "Apr",
+    5: "May",
+    6: "Jun",
+    7: "Jul",
+    8: "Aug",
+    9: "Sep",
+    10: "Oct",
+    11: "Nov",
+    12: "Dec"
+  };
   void _showCreateNoteDialog(BuildContext context) {
     showDialog(
       context: context,
@@ -59,7 +72,7 @@ class DashBoardScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.blueGrey,
+      backgroundColor: Colors.blueGrey[900],
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         title: Obx(
@@ -67,11 +80,19 @@ class DashBoardScreen extends StatelessWidget {
             if (userProfileController.isLoading.value) {
               return Text('Loading...');
             }
-            return Text("Welcome, " + userProfileController.loggedInUser!.name);
+            return Text(
+              "Welcome, " + userProfileController.loggedInUser!.name,
+              style: TextStyle(
+                color: Colors.white,
+              ),
+            );
           },
         ),
         actions: [
           ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Color(0xff6F6FC8),
+            ),
             onPressed: () async {
               final ans = await logoutController.logout();
               if (ans) {
@@ -85,15 +106,28 @@ class DashBoardScreen extends StatelessWidget {
                 Get.off(OnBoardScreen());
               }
             },
-            child: Icon(Icons.logout),
+            child: Icon(
+              Icons.logout,
+              color: Colors.white,
+            ),
           ),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          _showCreateNoteDialog(context);
-        },
-        child: Icon(Icons.add),
+      floatingActionButton: SizedBox(
+        width: 80,
+        height: 80,
+        child: FloatingActionButton(
+          shape: CircleBorder(),
+          backgroundColor: Color(0xff6F6FC8),
+          onPressed: () {
+            _showCreateNoteDialog(context);
+          },
+          child: Icon(
+            Icons.note_add_outlined,
+            size: 32,
+            color: Colors.white,
+          ),
+        ),
       ),
       body: RefreshIndicator(
         onRefresh: _refresh,
@@ -111,7 +145,11 @@ class DashBoardScreen extends StatelessWidget {
                 return ListTile(
                   title: Text(note.title),
                   trailing: Text(
-                      "${note.updatedAt.toString().split(' ')[0]} ${note.updatedAt.toString().split(' ')[1].substring(0, 5)}"),
+                    "${month[note.updatedAt.month]} ${note.updatedAt.day.toString()} ${note.updatedAt.hour.toString()}:${note.updatedAt.minute.toString()}",
+                    style: const TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
                   subtitle: Text(
                     note.content.split('\n').first, // Only show the first line
                     maxLines: 1,

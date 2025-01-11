@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:securenotes/constants/utils.dart';
 import 'package:securenotes/screens/onboard_screen.dart';
-
 import 'controller/appwrite_service.dart';
 import 'controller/setup_controller.dart';
 
@@ -24,6 +25,8 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
+        fontFamily: GoogleFonts.poppins().fontFamily,
+        scaffoldBackgroundColor: MyColor.kScaffoldBackground,
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),

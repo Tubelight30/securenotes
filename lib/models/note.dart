@@ -5,7 +5,8 @@ class Note {
   final String content;
   final DateTime createdAt;
   final DateTime updatedAt;
-
+  final double? latitude; // Make it nullable
+  final double? longitude; // Make it nullable
   Note({
     required this.id,
     required this.userId,
@@ -13,6 +14,8 @@ class Note {
     required this.content,
     required this.createdAt,
     required this.updatedAt,
+    this.latitude,
+    this.longitude,
   });
 
   factory Note.fromMap(Map<String, dynamic> map) {
@@ -23,6 +26,8 @@ class Note {
       content: map['content'],
       createdAt: DateTime.parse(map['createdAt']),
       updatedAt: DateTime.parse(map['updatedAt']),
+      latitude: map['latitude']?.toDouble(),
+      longitude: map['longitude']?.toDouble(),
     );
   }
 
@@ -33,6 +38,8 @@ class Note {
       'content': content,
       'createdAt': createdAt.toIso8601String(),
       'updatedAt': updatedAt.toIso8601String(),
+      'latitude': latitude,
+      'longitude': longitude,
     };
   }
 }

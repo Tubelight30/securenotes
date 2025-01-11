@@ -1,7 +1,6 @@
 // import 'package:appwrite/models.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:securenotes/constants/secrets.dart';
 import 'package:securenotes/controller/appwrite_service.dart';
 import 'package:securenotes/models/user.dart';
 
@@ -9,15 +8,14 @@ class LoginController extends GetxController {
   final AppwriteService appwriteService = Get.find<AppwriteService>();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+  // late String? _encryptionKey;
   // final isLogin = false.obs;
   final isLoading = false.obs;
   User? loggedInUser;
 
-  @override
-  void onInit() {
-    super.onInit();
-    // initAppwrite();
-  }
+  // Future<void> _initEncryptionKey() async {
+  //   _encryptionKey = await EncryptionUtils.getEncryptionKey();
+  // }
 
   Future<bool> login() async {
     isLoading.value = true;
@@ -32,6 +30,8 @@ class LoginController extends GetxController {
       print("this da user");
       // final user = await appwriteService.account.get();
       // await fetchUserDetails(user.$id);
+      passwordController.clear();
+      emailController.clear();
       return true;
     } catch (e) {
       // Show error SnackBar

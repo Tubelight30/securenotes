@@ -3,22 +3,25 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:securenotes/constants/secrets.dart';
 import 'package:securenotes/controller/appwrite_service.dart';
+import 'package:securenotes/utils/encryption_utils.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SignUpController extends GetxController {
   final AppwriteService appwriteService = Get.find<AppwriteService>();
   TextEditingController emailController = TextEditingController();
   TextEditingController usernameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  TextEditingController passphraseController = TextEditingController();
 
-  bool isLoading = false;
+  RxBool isLoading = false.obs;
   // final Client client = Client();
   // late final Account account;
 
-  @override
-  void onInit() {
-    super.onInit();
-    // initAppwrite();
-  }
+  // @override
+  // void onInit() {
+  //   super.onInit();
+  //   // initAppwrite();
+  // }
 
   // void initAppwrite() {
   //   client
@@ -28,8 +31,9 @@ class SignUpController extends GetxController {
   //   account = Account(client);
   // }
 
-  Future<bool> signup(BuildContext context) async {
-    isLoading = true;
+  Future<bool> signup() async {
+    final prefs = await SharedPreferences.getInstance();
+    isLoading.value = true;
     update();
 
     try {
@@ -62,6 +66,10 @@ class SignUpController extends GetxController {
           'email': emailController.text,
         },
       );
+      String encryptionKey =
+          EncryptionUtils.generateEncryptionKey(passphraseController.text);
+
+      await prefs.setString('encryption_key', encryptionKey);
       return true;
     } catch (e) {
       // show error SnackBar
@@ -75,7 +83,7 @@ class SignUpController extends GetxController {
       );
       return false;
     } finally {
-      isLoading = false;
+      isLoading.value = false;
       update();
     }
   }

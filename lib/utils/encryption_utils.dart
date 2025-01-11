@@ -36,6 +36,9 @@
 //     return encrypter.decrypt(encrypted, iv: iv);
 //   }
 // }
+import 'dart:convert';
+
+import 'package:crypto/crypto.dart';
 import 'package:encrypt/encrypt.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -46,15 +49,17 @@ class EncryptionUtils {
     final prefs = await SharedPreferences.getInstance();
     String? key = prefs.getString(_encryptionKeyPref);
     if (key == null) {
-      key = generateEncryptionKey();
-      await prefs.setString(_encryptionKeyPref, key);
+      throw Exception('Encryption key not found');
     }
     return key;
   }
 
-  static String generateEncryptionKey() {
-    final key = Key.fromSecureRandom(32); // 32 bytes for AES-256
-    return key.base64;
+  static String generateEncryptionKey(String passphrase) {
+    final bytes = utf8.encode(passphrase);
+    final digest = sha256.convert(bytes);
+    return base64.encode(digest.bytes);
+    // final key = Key.fromSecureRandom(32); // 32 bytes for AES-256
+    // return key.base64;
   }
 
   static String encrypt(String plainText, String keyString) {
@@ -83,3 +88,31 @@ class EncryptionUtils {
     return encrypter.decrypt(encrypted, iv: iv);
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  // static void testing() {
+  //   final bytes = utf8.encode("saumya");
+  //   print("this is the bytes" + bytes.toString());
+  //   final digest = sha256.convert(bytes);
+  //   print("this is the digest" + digest.toString());
+  //   final base = base64.encode(digest.bytes);
+  //   print("this is the base" + base.toString());
+  // }
